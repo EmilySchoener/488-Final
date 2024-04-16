@@ -16,9 +16,13 @@ from sklearn.ensemble import RandomForestRegressor
 data = pd.read_csv('Video Games Sales.csv')
 df = data
 # removes all columns except platform, genre, and global sales
+
 df = df.drop(labels='index', axis=1)
+
 # df = df.drop(labels='Rank', axis=1)
+
 df = df.drop(labels='Game Title', axis=1)
+
 # df = df.drop(labels='Year', axis=1)
 # df = df.drop(labels='Publisher', axis=1)
 # df = df.drop(labels='North America', axis=1)
@@ -121,7 +125,7 @@ df['Global_Sales_up'] = np.sqrt(df['Global'])
 print(df['Global_Sales_up'].skew())
 
 # Drop old columns
-df = df.drop(['North America', 'Europe', 'Japan', 'Rest of World', 'Global'], axis=1)
+df = df.drop(['North America', 'Europe', 'Japan', 'Rest of World', 'Review'], axis=1)
 
 # Graph data after fixing skew
 df.hist(bins=50, figsize=(10, 10))
@@ -135,10 +139,10 @@ sns.heatmap(corr, annot=True)
 plt.show()
 
 df = df.drop(labels='Rank', axis=1)
-df = df.drop(labels='Year', axis=1)
+# df = df.drop(labels='Year', axis=1)
 df = df.drop(labels='Publisher', axis=1)
 
-target = 'Review'
+target = 'Global'
 X = df.drop(target, axis=1)
 y = df[target]
 # y = y.values.reshape(-1, 1)
@@ -255,6 +259,7 @@ def genre(value):
         return 11
 
 
+df = data
 # sets up target and data
 target_df = pd.DataFrame(data=df, columns=['Review'])
 target_df['Review'] = target_df['Review'].apply(game_scoring)
@@ -277,9 +282,9 @@ def find_score(platform, genre):
         probability_of_good = likelihood['Platform'][1][platform] * likelihood['Genre'][1][genre]
         probability_of_bad = likelihood['Platform'][0][platform] * likelihood['Genre'][0][genre]
         if probability_of_good >= probability_of_bad:
-            return 'good'
+            return 'Higher'
         else:
-            return 'bad'
+            return 'Lower'
     except KeyError:
         return 'none'
 
@@ -299,7 +304,8 @@ for i in range(len(platforms)):
 
 # prints out final results
 array.append(row)
-# print(tabulate(array, headers=genres, tablefmt="grid"))
+print("Review Ratings over 80%")
+print(tabulate(array, headers=genres, tablefmt="grid"))
 
 # Naive Bayes unused (low accuracy)
 '''
