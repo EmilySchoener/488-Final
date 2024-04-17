@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, KFold
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, RocCurveDisplay
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LinearRegression, Ridge, RidgeCV, Lasso, LassoCV
 from sklearn.preprocessing import LabelEncoder
@@ -308,31 +308,22 @@ print("Review Ratings over 80%")
 print(tabulate(array, headers=genres, tablefmt="grid"))
 
 # Naive Bayes unused (low accuracy)
-'''
-# sets up target and data
 target_df = pd.DataFrame(data=df, columns=['Review'])
 target_df['Review'] = target_df['Review'].apply(game_scoring)
 df = df.drop(labels='Review', axis=1)
-data_df = pd.DataFrame(data=df, columns=df.columns)
+data_df = pd.DataFrame(data=df, columns=['Platform', 'Genre'])
 data_df['Platform'] = data_df['Platform'].apply(platform)
 data_df['Genre'] = data_df['Genre'].apply(genre)
-data_df['Review'] = data_df['Review'].apply(game_scoring)
+# data_df['Review'] = data_df['Review'].apply(game_scoring)
 
-X_train, X_test, y_train, y_test = train_test_split(data_df, target_df, test_size=0.5, random_state=125)
+X_train, X_test, y_train, y_test = train_test_split(data_df, target_df, test_size=0.3, random_state=125)
 model = GaussianNB()
 model.fit(X_train, y_train.values.ravel())
 predicted = model.predict(X_test)
-
-print("Actual Value:", y_test)
-print("Predicted Value:", predicted)
 
 y_pred = model.predict(X_test)
 accuray = accuracy_score(y_pred, y_test)
 f1 = f1_score(y_pred, y_test, average="weighted")
 
-print("Accuracy:", accuray)
-print("F1 Score:", f1)
-
-'''
-
-#
+print("Accuracy NB:", accuray)
+print("F1 Score NB:", f1)
