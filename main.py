@@ -163,7 +163,7 @@ y_predicted = model.predict(X_test)
 rg = r2_score(y_test, y_predicted)*100
 print("\nThe accuracy is: {}".format(rg))
 
-regressor = RandomForestRegressor(max_depth=2, random_state=0)
+regressor = RandomForestRegressor(max_depth=6, random_state=0)
 regressor.fit(X_train, y_train)
 RandomForestRegressor(max_depth=2, random_state=0)
 # R2 score
