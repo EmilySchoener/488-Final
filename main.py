@@ -125,7 +125,7 @@ df['Global_Sales_up'] = np.sqrt(df['Global'])
 print(df['Global_Sales_up'].skew())
 
 # Drop old columns
-df = df.drop(['North America', 'Europe', 'Japan', 'Rest of World', 'Review'], axis=1)
+df = df.drop(['North America', 'Europe', 'Japan', 'Rest of World', 'Review', "Global"], axis=1)
 
 # Graph data after fixing skew
 df.hist(bins=50, figsize=(10, 10))
@@ -142,7 +142,7 @@ df = df.drop(labels='Rank', axis=1)
 # df = df.drop(labels='Year', axis=1)
 df = df.drop(labels='Publisher', axis=1)
 
-target = 'Global'
+target = 'Global_Sales_up'
 X = df.drop(target, axis=1)
 y = df[target]
 # y = y.values.reshape(-1, 1)
